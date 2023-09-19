@@ -93,7 +93,7 @@ int	ft_base_int(char *str, int i, int a, char *base)
 	while (i >= a)
 	{
 		if (str[i] == '-')
-			n *= -1;
+			n = -n;
 		j = 0;
 		while (base[j] != '\0')
 		{
@@ -138,10 +138,9 @@ int	ft_atoi_base(char *str, char *base)
 
 /*int	main(void)
 {
-	char	*str = "    -+-110000001011111000001'67";
-	char	*base = "";
+	char	*str = "    -+--++---010100101'67";
+	char	*base = "0123456789";
 
 	ft_putnbr (ft_atoi_base(str, base));
 	return (0);
-}
-*/
+}*/

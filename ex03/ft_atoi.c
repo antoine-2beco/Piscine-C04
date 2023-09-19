@@ -9,35 +9,8 @@
 /*   Updated: 2023/09/14 11:19:40 by ade-beco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <unistd.h>
 
-/*void	ft_putchar(int a)
-{
-	write(1 , &a, 1);
-}
-
-void	ft_putnbr(int nb)
-{
-	if (nb > 9)
-	{
-		ft_putnbr(nb / 10);
-		ft_putnbr(nb % 10);
-	}
-	else if (nb == -2147483648)
-	{
-		ft_putchar('-');
-		ft_putchar('2');
-		ft_putnbr(147483648);
-	}
-	else if (nb < 0)
-	{
-		ft_putchar('-');
-		nb = - nb;
-		ft_putnbr(nb);
-	}
-	else
-		ft_putchar(nb + '0');
-}*/
+/*#include <stdio.h>*/
 
 int	ft_atoi(char *str)
 {
@@ -46,30 +19,28 @@ int	ft_atoi(char *str)
 	int	resu;
 
 	i = 0;
-	n = 0;
+	n = 1;
 	resu = 0;
-	while ((str[i] == ' ') || (str[i] == '+') || (str[i] == '-')
-		|| (str[i] == '\t') || (str[i] == '\n') || (str[i] == '\v')
-		|| (str[i] == '\f') || (str[i] == '\r'))
+	while ((str[i] == ' ') || (str[i] == '\t') || (str[i] == '\n')
+		|| (str[i] == '\v') || (str[i] == '\f') || (str[i] == '\r'))
+		i++;
+	while ((str[i] == '+') || (str[i] == '-'))
 	{
 		if (str[i] == '-')
-			n++;
+			n = -n;
 		i++;
 	}
 	while ((str[i] > 47) && (str[i] < 58))
 	{
-		resu = resu + (str[i] - '0');
-		resu = resu * 10;
+		resu = ((resu * 10) + (str[i] - '0'));
 		i++;
 	}
-	if ((n % 2) == 1)
-		return ((resu / 10) * -1);
-	return (resu / 10);
+	return (resu * n);
 }
 
 /*int	main(void)
 {
-	char *str = "    	--+--+12345'67";
-	ft_putnbr(ft_atoi(str));
-	return(0);
+	char *str = "    2147483648'67";
+	printf("%d", (ft_atoi(str)));
+	return (0);
 }*/

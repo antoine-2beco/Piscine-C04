@@ -64,6 +64,8 @@ void	ft_putnbr_base(int a, char *base)
 
 	i = 0;
 	l = ft_strlen(base);
+	if (!(check_base(base)))
+		return ;
 	if (a < 0)
 	{
 		a = -a;
@@ -86,8 +88,6 @@ void	ft_putnbr_base(int a, char *base)
 /*int main(void)
 {
 	char *b1 = "55";
-	if (!(check_base(b1)))
-		return(0);
 	ft_putnbr_base(236, b1);
 	return (0);
 }*/
