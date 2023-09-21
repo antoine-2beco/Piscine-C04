@@ -56,38 +56,40 @@ void	ft_putchar(char x)
 	write(1, &x, 1);
 }
 
-void	ft_putnbr_base(int a, char *base)
+void	ft_putnbr_base_rec(long a, char *base, int l)
 {
-	int	result[100];
-	int	i;
-	int	l;
-
-	i = 0;
-	l = ft_strlen(base);
-	if (!(check_base(base)))
-		return ;
 	if (a < 0)
 	{
 		a = -a;
 		ft_putchar('-');
 	}
-	while (a)
+	if (a < l)
 	{
-		result[i] = a % l;
-		a = a / l;
-		i++;
+		ft_putchar(base[a]);
 	}
-	i--;
-	while (i >= 0)
+	if (a >= l)
 	{
-		ft_putchar(base[result[i]]);
-		i--;
+		ft_putnbr_base_rec(a / l, base, l);
+		ft_putnbr_base_rec(a % l, base, l);
 	}
 }
 
-/*int main(void)
+void	ft_putnbr_base(int a, char *base)
 {
-	char *b1 = "55";
-	ft_putnbr_base(236, b1);
+	int		l;
+	long	x;
+
+	x = a;
+	l = ft_strlen(base);
+	if (!(check_base(base)))
+		return ;
+	ft_putnbr_base_rec(x, base, l);
+}
+
+/*int	main(void)
+{
+	char *b1 = "01";
+	
+	ft_putnbr_base(-2147364748, b1);
 	return (0);
 }*/
