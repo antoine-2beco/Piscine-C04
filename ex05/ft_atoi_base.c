@@ -10,16 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*#include <unistd.h>
+#include <unistd.h>
 #include <stdio.h>
-
-void	ft_putchar(int a)
-{
-	write (1, &a, 1);
-}
 
 void	ft_putnbr(int nb)
 {
+	int	temp;
+
 	if (nb > 9)
 	{
 		ft_putnbr(nb / 10);
@@ -27,19 +24,22 @@ void	ft_putnbr(int nb)
 	}
 	else if (nb == -2147483648)
 	{
-		ft_putchar('-');
-		ft_putchar('2');
+		write(1, "-", 1);
+		write(1, "2", 1);
 		ft_putnbr(147483648);
 	}
 	else if (nb < 0)
 	{
-		ft_putchar('-');
+		write(1, "-", 1);
 		nb = -nb;
 		ft_putnbr(nb);
 	}
 	else
-		ft_putchar(nb + '0');
-}*/
+	{
+		temp = nb + '0';
+		write(1, &temp, 1);
+	}
+}
 
 int	ft_strlen(char	*str)
 {
@@ -53,7 +53,7 @@ int	ft_strlen(char	*str)
 	return (i);
 }
 
-int	check_base(char *base)
+int	check_base(char *base, int out)
 {
 	int	a;
 	int	b;
@@ -62,14 +62,14 @@ int	check_base(char *base)
 	b = 0;
 	if ((base[0] == '\0') || (base[1] == '\0'))
 		return (0);
-	while (base[a])
+	while (base[a] != '\0')
 	{
 		b = a + 1;
 		if (base[a] == '+' || base[a] == '-')
 			return (0);
 		if (base[a] < 33 || base[a] > 126)
 			return (0);
-		while (base[b])
+		while (base[b] != '\0')
 		{
 			if (base[a] == base[b])
 				return (0);
@@ -77,7 +77,7 @@ int	check_base(char *base)
 		}
 		a++;
 	}
-	return (1);
+	return (out);
 }
 
 int	ft_base_int(char *str, int i, int a, char *base)
@@ -106,41 +106,48 @@ int	ft_base_int(char *str, int i, int a, char *base)
 		}
 		i--;
 	}
-	return (res * n);
+	return (check_base(base, res * n));
 }
 
 int	ft_atoi_base(char *str, char *base)
 {
 	int	i;
-	int	j;
 	int	a;
+	int	k;
 
-	if (check_base(base) == 0)
-		return (0);
 	i = 0;
-	while ((str[i] == ' ') || (str[i] == '\t') || (str[i] == '\n')
-		|| (str[i] == '\v') || (str[i] == '\f') || (str[i] == '\r'))
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
 		i++;
 	a = i;
 	while ((str[i] == '+') || (str[i] == '-'))
 		i++;
-	while ((str[i] != '\0'))
+	while (str[i] != '\0')
 	{
-		j = 0;
-		while ((base[j] != '\0') && (str[i] != base[j]))
-			j++;
-		if ((str[i] != base[j]))
+		k = 0;
+		while (base[k] != '\0')
+		{
+			if (str[i] == base[k])
+				k = ft_strlen(base) - 1;
+			k++;
+		}
+		if (k != ft_strlen(base))
 			break ;
 		i++;
 	}
-	return (ft_base_int (str, i, a, base));
+	return (ft_base_int (str, i - 1, a, base));
 }
 
 /*int	main(void)
 {
-	char	*str = "    -+--++---010100101'67";
-	char	*base = "0123456789";
-
-	ft_putnbr (ft_atoi_base(str, base));
+	ft_putnbr (ft_atoi_base("ff", "0123456789abcdef"));
+	write(1, "\n", 1);
+	ft_putnbr (ft_atoi_base("101101", "01"));
+	write(1, "\n", 1);
+	ft_putnbr (ft_atoi_base("     +-14353", "0123456789"));
+	write(1, "\n", 1);
+	ft_putnbr (ft_atoi_base("      	---10101001", "01"));
+	write(1, "\n", 1);
+	ft_putnbr (ft_atoi_base("      +---59", "0123456789abcdef"));
 	return (0);
-}*/
+}
+*/
