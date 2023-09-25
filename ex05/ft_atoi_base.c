@@ -13,7 +13,7 @@
 #include <unistd.h>
 #include <stdio.h>
 
-void	ft_putnbr(int nb)
+/*void	ft_putnbr(int nb)
 {
 	int	temp;
 
@@ -39,7 +39,7 @@ void	ft_putnbr(int nb)
 		temp = nb + '0';
 		write(1, &temp, 1);
 	}
-}
+}*/
 
 int	ft_strlen(char	*str)
 {
@@ -65,9 +65,7 @@ int	check_base(char *base, int out)
 	while (base[a] != '\0')
 	{
 		b = a + 1;
-		if (base[a] == '+' || base[a] == '-')
-			return (0);
-		if (base[a] < 33 || base[a] > 126)
+		if (base[a] == '+' || base[a] == '-' || base[a] < 33 || base[a] > 126)
 			return (0);
 		while (base[b] != '\0')
 		{
@@ -78,6 +76,23 @@ int	check_base(char *base, int out)
 		a++;
 	}
 	return (out);
+}
+
+int	ft_isbase(char n, char *base)
+{
+	int	c;
+
+	c = 0;
+	if (n == '\n' || n == '\t' || n == '\v' || n == '\f' || n == '\r'
+		|| n == ' ' || n == '+' || n == '-')
+		return (1);
+	while (base[c] != '\0')
+	{
+		if (base[c] == n)
+			return (2);
+		c++;
+	}
+	return (0);
 }
 
 int	ft_base_int(char *str, int i, int a, char *base)
@@ -93,7 +108,7 @@ int	ft_base_int(char *str, int i, int a, char *base)
 	while (i >= a)
 	{
 		if (str[i] == '-')
-			n = -n;
+			n *= -1;
 		j = 0;
 		while (base[j] != '\0')
 		{
@@ -113,7 +128,6 @@ int	ft_atoi_base(char *str, char *base)
 {
 	int	i;
 	int	a;
-	int	k;
 
 	i = 0;
 	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
@@ -123,14 +137,7 @@ int	ft_atoi_base(char *str, char *base)
 		i++;
 	while (str[i] != '\0')
 	{
-		k = 0;
-		while (base[k] != '\0')
-		{
-			if (str[i] == base[k])
-				k = ft_strlen(base) - 1;
-			k++;
-		}
-		if (k != ft_strlen(base))
+		if (ft_isbase(str[i], base) != 2)
 			break ;
 		i++;
 	}
@@ -139,15 +146,14 @@ int	ft_atoi_base(char *str, char *base)
 
 /*int	main(void)
 {
-	ft_putnbr (ft_atoi_base("ff", "0123456789abcdef"));
+	ft_putnbr (ft_atoi_base("---+-ff-", "2f"));
 	write(1, "\n", 1);
-	ft_putnbr (ft_atoi_base("101101", "01"));
+	ft_putnbr (ft_atoi_base("-1011-2-01", "01"));
 	write(1, "\n", 1);
-	ft_putnbr (ft_atoi_base("     +-14353", "0123456789"));
+	ft_putnbr (ft_atoi_base("     -+-14353fd", "0123456789f"));
 	write(1, "\n", 1);
 	ft_putnbr (ft_atoi_base("      	---10101001", "01"));
 	write(1, "\n", 1);
-	ft_putnbr (ft_atoi_base("      +---59", "0123456789abcdef"));
+	ft_putnbr (ft_atoi_base("      +---5z9", "0123456789abcdef"));
 	return (0);
-}
-*/
+}*/
